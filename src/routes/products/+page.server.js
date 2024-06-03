@@ -1,7 +1,10 @@
+import { loading } from "../../lib/Loading";
+
 export const load = async ({fetch}) => {
     try {
+      loading.update(state => state = true);
       const res1 = await fetch('https://fakestoreapi.com/products');
-       
+
       if (!res1.ok) {
           throw new Error(`HTTP error: ${res1.status}`)
         }

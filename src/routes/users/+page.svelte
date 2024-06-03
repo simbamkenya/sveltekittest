@@ -1,7 +1,11 @@
 <script>
   import Toast from "../Toast.svelte";
+  import {loading} from '$lib/loading';
 
-    export let data;
+
+    export let data = [];
+
+    let isLoadingData = data.length === 0;
 
    function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -10,6 +14,7 @@
 
 <Toast />
 <div class="p-2">
+     
     <div class="border-b border-gray-200 shadow">
         
         <table class="divide-y divide-green-400 w-full">

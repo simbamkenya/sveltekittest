@@ -1,5 +1,11 @@
 import {z} from 'zod';
 
+
+
+const keys = ['city','email','firstname','lastname','lat','long','number','password','phone','street','username','zipcode']
+function haveCommonItems(arr1, arr2) {
+   return arr1.some(item => arr2.includes(item));
+ }
 const signupSchema = z.object({
              email: z
                .string({required_error: 'Name is required'})
@@ -7,12 +13,12 @@ const signupSchema = z.object({
                .trim(),
              password: z
                 .string({required_error: 'Password is required'})
-                .min(6, {message:  'too short password'}) 
+                .min(6, {message:  'password should have atleast 6 characters'}) 
                 .max(32, {message: 'password should be less than 32 characters'})
                 .trim(),
              username: z
                 .string({required_error: 'Username is required'})
-                .min(2, {message:  'too short username'}) 
+                .min(4, {message:  'username should have atleast 4 chars'}) 
                 .max(32, {message: 'username should be less than 32 characters'})
                 .trim(),
              firstname: z
@@ -38,7 +44,7 @@ const signupSchema = z.object({
                 .min(2, {message:  'too short street name'}) 
                 .max(32, {message: 'street should be less than 32 characters'})
                 .trim(),
-             numberv:  z
+             number:  z
                 .string({required_error: 'Number is required'})
                 .trim(), 
              zipcode:  z
@@ -55,64 +61,89 @@ const signupSchema = z.object({
 })
 export const actions = {
     signup: async ({ request, fetch }) => {
-        const formData = await request.formData()
-       
-         const { 
-             email,
-             password,
-             username,
-             firstname,
-             lastname,
-             phone,
-             city, 
-             street,
-             number, 
-             zipcode,
-             lat,
-             long,
+        const formData = Object.fromEntries(await request.formData())
+      //  console.log('try data', formData)
+        try {
+            const result = signupSchema.parse(formData);
+            const { 
+                email,
+                password,
+                username,
+                firstname,
+                lastname,
+                phone,
+                city, 
+                street,
+                number, 
+                zipcode,
+                lat,
+                long,
+   
+               } = result
+               
+          const res = await fetch('https://fakestoreapi.com/users',{
+                method:"POST",
+                body:JSON.stringify(
+                    {
+                        email,
+                        username,
+                        password,
+                        name:{
+                            firstname,
+                            lastname
+                        },
+                        address:{
+                            city,
+                            street,
+                            number,
+                            zipcode,
+                            geolocation:{
+                                lat,
+                                long
+                            }
+                        },
+                        phone
+                    }
+                )
+            })
+                .then(res=>res.json())
+                .then(json=>console.log(json))
 
-            } = Object.fromEntries(formData.entries());
+            return { data: {type: 'success'}};
 
-        fetch('https://fakestoreapi.com/users',{
-            method:"POST",
-            body:JSON.stringify(
-                {
-                    email,
-                    username,
-                    password,
-                    name:{
-                        firstname,
-                        lastname
-                    },
-                    address:{
-                        city,
-                        street,
-                        number,
-                        zipcode,
-                        geolocation:{
-                            lat,
-                            long
-                        }
-                    },
-                    phone
-                }
-            )
-        })
-            .then(res=>res.json())
-            .then(json=>console.log(json))
+        } catch (error) {
+         const hasZodError = haveCommonItems(keys, Object.keys(error))
 
+         if(!hasZodError){
+            return {data: {type: 'error'}}
+         }
 
-        return { data: {email,
-             password,
-             username,
-             firstname,
-             lastname,
-             phone,
-             city, 
-             street,
-             number, 
-             zipcode,
-             lat,
-             long,}};
+            const {fieldErrors: errors }  = error.flatten();
+            const {  email,
+                password,
+                username,
+                firstname,
+                lastname,
+                phone,
+                city, 
+                street,
+                number, 
+                zipcode,
+                lat,
+                long,} = formData;
+
+            return { data: { email,
+                password,
+                username,
+                firstname,
+                lastname,
+                phone,
+                city, 
+                street,
+                number, 
+                zipcode,
+                lat,
+                long,}, errors}
+        }
 	}
 };
