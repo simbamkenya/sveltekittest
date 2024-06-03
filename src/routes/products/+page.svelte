@@ -16,9 +16,9 @@
    </div>
    
   {:else}
-  <div class="grid grid-col-1 md:grid-cols-3 gap-2 mt-4 -z-999">
+  <div class="grid grid-col-1 md:grid-cols-3 gap-4 px-6 mt-4 -z-999">
     {#each productsData as { title, price, image}, i}
-      <div class="border-2 flex flex-col rounded-sm">
+      <div class="border-2 flex flex-col rounded-sm hover:scale-[103%] translation-all duration-500">
           <div class="relative bg-white">
               <span class="absolute top-4 bottom-4 pr-4 pl-2 ml-2 bg-[gold] h-6 rounded-lg">{_.sample(categories)}</span>
               <img class="max-h-96 #w-full" src={image} alt="" srcset="" />

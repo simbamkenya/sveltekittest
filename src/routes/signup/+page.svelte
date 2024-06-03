@@ -58,8 +58,8 @@
   <button on:click={successToast}>Success Toast</button>
   <button on:click={errorToast}>Error Toast</button>
 </form> -->
-
-<form class="md:flex flex-col mb-6" method="POST" action="?/signup">
+<div class="p-4">
+  <form class="md:flex flex-col mb-6 bg-gray-200 rounded-md p-4" method="POST" action="?/signup">
   <div class="md:flex mb-6">
     <div class="md:w-1/2 px-3 mb-6 md:mb-0">
       <label class="block text-sm mb-1" for="firstname"> First Name </label>
@@ -266,3 +266,5 @@
     </button>
   </div>
 </form>
+</div>
+

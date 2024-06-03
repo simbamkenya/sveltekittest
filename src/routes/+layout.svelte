@@ -6,7 +6,7 @@
   import "../../src/app.css";
   import { setContext } from "svelte";
 
-   let isSidebarOpen = false;
+   let isSidebarOpen = true;
 
    function toggleSidebar() {	
     return (isSidebarOpen = !isSidebarOpen);
@@ -17,16 +17,16 @@
 
 </script>
 
-<div class="bg-gray-100 w-full h-screen overflow-y-auto">
-  <div class="flex">
+<div class="bg-gray-100 flex overflow-x-hidden min-h-screen">
     <Sidebar isSidebarOpen={isSidebarOpen} />
-    <main class="w-full">
+    <main class="w-full h-full">
       <Header />
       <slot />
+      <Footer />
     </main>
-  </div>
 
-  <Footer />
+
+  
 </div>
 
 <style>

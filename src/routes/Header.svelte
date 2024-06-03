@@ -9,7 +9,7 @@
   };
 </script>
 
-<header class="border-b border-solid border-4 #border-gray-300 bg-white">
+<header class="border-b border-solid #border-gray-300 bg-white">
   <nav class="flex items-center justify-between">
     <svg
       on:click={toggleSidebar}
@@ -22,7 +22,7 @@
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="lucide lucide-menu"
+      class="bg-gray-100 mx-2 hover:cursor-pointer hover:bg-gray-200 rounded-sm"
       ><line x1="4" x2="20" y1="12" y2="12" /><line
         x1="4"
         x2="20"
@@ -38,7 +38,7 @@
     </style>
     <style>
 
-    
+  
     </style>
 
     <div class="relative mt-1">

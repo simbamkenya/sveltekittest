@@ -62,7 +62,6 @@ const signupSchema = z.object({
 export const actions = {
     signup: async ({ request, fetch }) => {
         const formData = Object.fromEntries(await request.formData())
-      //  console.log('try data', formData)
         try {
             const result = signupSchema.parse(formData);
             const { 
@@ -114,9 +113,9 @@ export const actions = {
         } catch (error) {
          const hasZodError = haveCommonItems(keys, Object.keys(error))
 
-         if(!hasZodError){
-            return {data: {type: 'error'}}
-         }
+         // if(!hasZodError){
+         //    return {data: {type: 'error'}}
+         // }
 
             const {fieldErrors: errors }  = error.flatten();
             const {  email,
