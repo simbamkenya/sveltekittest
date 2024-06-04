@@ -3,5 +3,5 @@ export const prerender = true;
 </script>
 
 <div>
-    <p>foooter</p>
+    <p>.</p>
 </div>
